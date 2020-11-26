@@ -49,7 +49,7 @@
                             </div>
                             <div class="modal-body">
                                 <form id="ItemForm" name="ItemForm" class="form-horizontal">
-                                    <input type="hidden" name="Item_id" id="Item_id">
+                                    <input type="hidden" name="id" id="id">
                                     <div class="form-group">
                                         <label for="name" class="col-sm-3 control-label">Nombre</label>
                                         <div class="col-sm-12">
@@ -106,7 +106,7 @@
         var table = $('.data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('ajaxItems.index') }}",
+            ajax: "{{ route('listadoSeries.index') }}",
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'name', name: 'name'},
@@ -120,19 +120,19 @@
 
         $('#createNewItem').click(function () {
             $('#saveBtn').val("create-Item");
-            $('#Item_id').val('');
+            $('#id').val('');
             $('#ItemForm').trigger("reset");
             $('#modelHeading').html("Añadir una serie");
             $('#ajaxModel').modal('show');
         });
 
         $('body').on('click', '.editItem', function () {
-            var Item_id = $(this).data('id');
-            $.get("{{ route('ajaxItems.index') }}" +'/' + Item_id +'/edit', function (data) {
+            var id = $(this).data('id');
+            $.get("{{ route('listadoSeries.index') }}" +'/' + id +'/edit', function (data) {
                 $('#modelHeading').html("Editar serie");
                 $('#saveBtn').val("edit-user");
                 $('#ajaxModel').modal('show');
-                $('#Item_id').val(data.id);
+                $('#id').val(data.id);
                 $('#name').val(data.name);
                 $('#genre').val(data.genre);
                 $('#origin_country').val(data.origin_country);
@@ -148,7 +148,7 @@
 
             $.ajax({
                 data: $('#ItemForm').serialize(),
-                url: "{{ route('ajaxItems.store') }}",
+                url: "{{ route('listadoSeries.store') }}",
                 type: "POST",
                 dataType: 'json',
                 success: function (data) {
@@ -167,12 +167,12 @@
 
         $('body').on('click', '.deleteItem', function () {
 
-            var Item_id = $(this).data("id");
+            var id = $(this).data("id");
             confirm("Confirma si deseas borrar la serie");
 
             $.ajax({
                 type: "DELETE",
-                url: "{{ route('ajaxItems.store') }}"+'/'+Item_id,
+                url: "{{ route('listadoSeries.store') }}"+'/'+id,
                 success: function (data) {
                     table.draw();
                 },

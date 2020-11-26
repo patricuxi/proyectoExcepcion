@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Yajra\Datatables\Datatables;
 use App\Serie;
+use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
-class ItemController extends Controller
+class SerieController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,7 +29,7 @@ class ItemController extends Controller
                 ->make(true);
         }
 
-        return view('itemAjax');
+        return view('listadoSeries');
     }
     /**
      * Store a newly created resource in storage.
@@ -39,7 +39,7 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        Serie::updateOrCreate(['id' => $request->Item_id],
+        Serie::updateOrCreate(['id' => $request->id],
             ['name' => $request->name, 'genre' => $request->genre, 'origin_country' => $request->origin_country, 'distributor' => $request->distributor, 'episodes' => $request->episodes]);
 
         return response()->json(['success'=>'Item saved successfully.']);

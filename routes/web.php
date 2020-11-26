@@ -17,4 +17,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('ajaxItems','ItemController');
+Route::resource('listadoSeries','SerieController');

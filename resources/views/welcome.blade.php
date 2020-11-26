@@ -87,7 +87,7 @@
                 <div class="links">
                     <a href="{{ url('/') }}">Inicio</a>
 
-                    <a href="{{ url('/ajaxItems') }}">Series Crud</a>
+                    <a href="{{ url('/listadoSeries') }}">Series Crud</a>
 
 
                 </div>
