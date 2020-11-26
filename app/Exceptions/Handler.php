@@ -33,6 +33,9 @@ class Handler extends ExceptionHandler
      * @return void
      *
      * @throws \Throwable
+     *
+     * El método report es útil cuando necesitamos loguear los errores a sistemas externos.
+     * Por ejemplo, a un servidor remoto syslog
      */
     public function report(Throwable $exception)
     {
@@ -47,9 +50,19 @@ class Handler extends ExceptionHandler
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Throwable
+     *
+     *
+     * Este método es el responsable de convertir una excepción en una
+     * respuesta HTTP que pudiera ser enviada al navegador.
+     * Por defecto, se recibe la excepción base, sin embargo,
+     * existe la libertad de enviar a cualquier vista, como se desee.
      */
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof CustomException) {
+            return response()->view('errors.custom', [], 500);
+        }
+
         return parent::render($request, $exception);
     }
 }

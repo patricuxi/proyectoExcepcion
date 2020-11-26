@@ -18,3 +18,6 @@ Route::get('/', function () {
 });
 
 Route::resource('listadoSeries','SerieController');
+
+//Prueba errores
+Route::get('exception/index', 'ExceptionController@index');

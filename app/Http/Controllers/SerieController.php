@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CustomException;
 use App\Serie;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -39,10 +40,17 @@ class SerieController extends Controller
      */
     public function store(Request $request)
     {
-        Serie::updateOrCreate(['id' => $request->id],
-            ['name' => $request->name, 'genre' => $request->genre, 'origin_country' => $request->origin_country, 'distributor' => $request->distributor, 'episodes' => $request->episodes]);
 
-        return response()->json(['success'=>'Item saved successfully.']);
+        $series = Serie::get();
+        if(count($series) >= 4){
+            throw new CustomException();
+
+        }else {
+            Serie::updateOrCreate(['id' => $request->id],
+                ['name' => $request->name, 'genre' => $request->genre, 'origin_country' => $request->origin_country, 'distributor' => $request->distributor, 'episodes' => $request->episodes]);
+
+            return response()->json(['success' => 'Item saved successfully.']);
+        }
     }
     /**
      * Show the form for editing the specified resource.
@@ -52,8 +60,8 @@ class SerieController extends Controller
      */
     public function edit($id)
     {
-        $item = Serie::find($id);
-        return response()->json($item);
+        $serie = Serie::find($id);
+        return response()->json($serie);
     }
     /**
      * Remove the specified resource from storage.
